@@ -6,7 +6,7 @@ const useExchangeRateAxios = (firstCurrency, secondCurrency) => {
 
   const getExchangeRatData = useCallback(async () => {
     try {
-      const { data } = await apiClient.get(`/convert?from=${firstCurrency}&to=${secondCurrency}&places=4`);
+      const { data } = await apiClient.get(`/convert?from=${firstCurrency.code}&to=${secondCurrency.code}&places=5`);
       setExchangeRatData(data);
     } catch (error) {
       console.log('통신 에러 내용 => ', error);
