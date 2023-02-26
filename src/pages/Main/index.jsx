@@ -15,6 +15,9 @@ const Main = () => {
 
   const { exchangeRatData } = useExchangeRateAxios(firstCurrency, secondCurrency);
 
+  const [firstValue, setFirstValue] = useState('');
+  const [secondValue, setSecondValue] = useState('');
+
   const onChangeFirstCurrencyValue = e => {
     currencyArr.forEach((currency, index) => {
       if (currency.code === e.target.value) {
@@ -31,7 +34,23 @@ const Main = () => {
     });
   };
 
-  console.log(exchangeRatData);
+  const onChangeFirstNumHandler = e => {
+    const value = Number(e.target.value);
+    setFirstValue(value === 0 ? '' : value);
+    const rate = exchangeRatData.info.rate;
+    const result = value * rate;
+    const trimmedValue = parseFloat(result.toFixed(5));
+    setSecondValue(trimmedValue === 0 ? '' : trimmedValue);
+  };
+
+  const onChangeSecondNumHandler = e => {
+    const value = Number(e.target.value);
+    setSecondValue(value === 0 ? '' : value);
+    const rate = exchangeRatData.info.rate;
+    const result = value / rate;
+    const trimmedValue = parseFloat(result.toFixed(5));
+    setFirstValue(trimmedValue === 0 ? '' : trimmedValue);
+  };
 
   return (
     <Container>
@@ -43,27 +62,31 @@ const Main = () => {
           </div>
           <div className='date'>기준 날짜 {exchangeRatData && exchangeRatData.success && exchangeRatData.date}</div>
         </div>
-        <div className='input'>
-          <select defaultValue={firstCurrency.code} onChange={onChangeFirstCurrencyValue}>
-            {currencyArr.map(currency => {
-              return (
-                <option value={currency.code} key={currency.code}>
-                  {currency.description}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <div className='input'>
-          <select defaultValue={secondCurrency.code} onChange={onChangeSecondCurrencyValue}>
-            {currencyArr.map(currency => {
-              return (
-                <option value={currency.code} key={currency.code}>
-                  {currency.description}
-                </option>
-              );
-            })}
-          </select>
+        <div className='input-box'>
+          <div className='input'>
+            <input type='number' value={firstValue} min={0} placeholder='값 입력' onChange={onChangeFirstNumHandler} />
+            <select defaultValue={firstCurrency.code} onChange={onChangeFirstCurrencyValue}>
+              {currencyArr.map(currency => {
+                return (
+                  <option value={currency.code} key={currency.code}>
+                    {currency.description}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className='input'>
+            <input type='number' value={secondValue} min={0} placeholder='값 입력' onChange={onChangeSecondNumHandler} />
+            <select defaultValue={secondCurrency.code} onChange={onChangeSecondCurrencyValue}>
+              {currencyArr.map(currency => {
+                return (
+                  <option value={currency.code} key={currency.code}>
+                    {currency.description}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
         </div>
       </div>
     </Container>
@@ -77,8 +100,8 @@ const Container = styled.div`
   min-height: 100vh;
 
   .main-box {
-    width: 500px;
-    height: 350px;
+    width: 545px;
+    height: 280px;
     border: 1px solid gray;
     border-radius: 5px;
 
@@ -102,7 +125,23 @@ const Container = styled.div`
       }
     }
 
-    .input {
+    .input-box {
+      margin-top: 2rem;
+
+      .input {
+        margin: 1rem;
+
+        input {
+          width: 12rem;
+          height: 3rem;
+          font-size: 1rem;
+        }
+
+        select {
+          height: 3rem;
+          font-size: 1rem;
+        }
+      }
     }
   }
 `;
