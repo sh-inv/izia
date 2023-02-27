@@ -5,14 +5,14 @@
 </br>
 </br>
 
-## 배포 링크
+## 프로젝트 배포 링크
 
 https://exchange-rate-calculator-by-shinv.netlify.app/
 </br>
 </br>
 </br>
 
-## 실행 방법
+## 프로젝트 실행 방법
 
 1. repository 클론 후 폴더로 이동 해주세요
 
